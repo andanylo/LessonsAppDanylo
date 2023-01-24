@@ -25,12 +25,52 @@ final class LessonsAppDanyloTests: XCTestCase {
         XCTAssert(!result.isEmpty)
     }
     
-    //Test creating
+    //Test creating cell view models
     func testLessonCellViewModels() async throws{
         let mainViewModel = MainViewModel()
         let _ = try await mainViewModel.fetchLessonsFromRemote()
         XCTAssert(mainViewModel.lessons.count == mainViewModel.lessonCellViewModels.count)
     }
+    
+    //Test creating detail view models
+    func testDetailViewModels() async throws{
+        let mainViewModel = MainViewModel()
+        let _ = try await mainViewModel.fetchLessonsFromRemote()
+        XCTAssert(mainViewModel.lessons.count == mainViewModel.detailViewModels.count)
+    }
+    
+    //Test calculating next detail view model
+    func testSuccessfulNextDetailViewModel(){
+        let mainViewModel = MainViewModel()
+        
+        let firstDetailViewModel = LessonDetailViewModel(lesson: Lesson(id: 0, name: "", description: "", thumbnail: "", video_url: ""))
+        firstDetailViewModel.mainViewModel = mainViewModel
+        
+        let secondDetailViewModel = LessonDetailViewModel(lesson: Lesson(id: 0, name: "", description: "", thumbnail: "", video_url: ""))
+        secondDetailViewModel.mainViewModel = mainViewModel
+        
+        mainViewModel.detailViewModels = [firstDetailViewModel, secondDetailViewModel]
+        
+        let result = firstDetailViewModel.returnNextDetailViewModel()
+        XCTAssert(result != nil)
+    }
+    
+    //Test calculating next detail view model that is position at the end of array
+    func testFailedNextDetailViewModel(){
+        let mainViewModel = MainViewModel()
+        
+        let firstDetailViewModel = LessonDetailViewModel(lesson: Lesson(id: 0, name: "", description: "", thumbnail: "", video_url: ""))
+        firstDetailViewModel.mainViewModel = mainViewModel
+        
+        let secondDetailViewModel = LessonDetailViewModel(lesson: Lesson(id: 0, name: "", description: "", thumbnail: "", video_url: ""))
+        secondDetailViewModel.mainViewModel = mainViewModel
+        
+        mainViewModel.detailViewModels = [firstDetailViewModel, secondDetailViewModel]
+        
+        let result = secondDetailViewModel.returnNextDetailViewModel()
+        XCTAssert(result == nil)
+    }
+    
     
     //Test loading thumbnail
     func testLoadingThumbnail() async throws{
@@ -40,6 +80,9 @@ final class LessonsAppDanyloTests: XCTestCase {
         
         XCTAssert(thumbnailImage.size != CGSize.zero)
     }
+    
+    
+    
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

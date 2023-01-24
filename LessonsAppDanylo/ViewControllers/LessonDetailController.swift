@@ -47,6 +47,25 @@ class LessonDetailController: UIViewController{
         return label
     }()
     
+    ///- Returns: A button which returns next lesson detail screen
+    ///
+    lazy var nextLessonBtn: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "chevron.right")
+        config.imagePlacement = .trailing
+        config.imagePadding = 5
+        config.title = "Next lesson"
+        config.buttonSize = .medium
+        
+        let button = UIButton(configuration: config, primaryAction: UIAction{
+           [weak self] _ in
+            self?.presentNextLessonController()
+        })
+        button.isHidden = lessonDetailViewModel.returnNextDetailViewModel() == nil
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     var player: AVPlayer?
     var playerController: AVPlayerViewController?
     
@@ -67,6 +86,7 @@ class LessonDetailController: UIViewController{
         
         buildPlayer()
         
+        //Title label
         self.view.addSubview(titleLabel)
       
         titleLabel.topAnchor.constraint(equalTo: self.videoView.bottomAnchor, constant: 15).isActive = true
@@ -76,7 +96,7 @@ class LessonDetailController: UIViewController{
         titleLabel.text = lessonDetailViewModel.lesson.name
         titleLabel.sizeToFit()
         
-        
+        //Descirption label
         self.view.addSubview(descriptionLabel)
         
         descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
@@ -87,8 +107,28 @@ class LessonDetailController: UIViewController{
         descriptionLabel.sizeToFit()
         
         
+        //Next lesson button
+        self.view.addSubview(nextLessonBtn)
+        
+        nextLessonBtn.sizeToFit()
+        nextLessonBtn.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 15).isActive = true
+        nextLessonBtn.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15).isActive = true
         
     }
+    
+    //Presents detailed view controller next to this one
+    func presentNextLessonController(){
+        guard let nextLessonViewModel = lessonDetailViewModel.returnNextDetailViewModel() else{
+            return
+        }
+        //Pop to root navigation controller so that the videos wouldn't be stored in the memory
+        self.navigationController?.popToRootViewController(animated: true)
+        
+        let detailController = LessonDetailController()
+        detailController.lessonDetailViewModel = nextLessonViewModel
+        self.navigationController?.pushViewController(detailController, animated: true)
+    }
+    
     
     
     //Build a player and add it to the player view

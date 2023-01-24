@@ -13,13 +13,15 @@ class MainViewModel{
     var lessons: [Lesson] = []{
         didSet{
             self.lessonCellViewModels = getLessonCellViewModels(from: lessons)
+            self.detailViewModels = getLessonDetailViewModels(from: lessons)
         }
     }
     
-    
+    ///Lesson cell view models
     var lessonCellViewModels: [LessonCellViewModel] = []
     
-    
+    ///Detail view view models
+    var detailViewModels: [LessonDetailViewModel] = []
     
     ///Fetch lessons from the url
     ///- Returns: An array of lessons
@@ -38,7 +40,6 @@ class MainViewModel{
         }
         
         self.lessons = lessonsResult.lessons
-        print(lessons)
         
         return lessonsResult.lessons
     }
@@ -52,6 +53,16 @@ class MainViewModel{
         return lessonCellViewModels
     }
     
+    ///- Returns: An array of view models which prepare detail view for display
+    ///
+    func getLessonDetailViewModels(from lessons: [Lesson]) -> [LessonDetailViewModel]{
+        var lessonDetailViewModels: [LessonDetailViewModel] = []
+        lessons.forEach({
+            let detailViewModel = LessonDetailViewModel(lesson: $0)
+            detailViewModel.mainViewModel = self
+            lessonDetailViewModels.append(detailViewModel)})
+        return lessonDetailViewModels
+    }
     
     enum FetchError: Error{
         case invalidURL

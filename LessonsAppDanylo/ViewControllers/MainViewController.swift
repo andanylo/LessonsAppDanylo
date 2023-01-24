@@ -81,9 +81,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let lesson = mainViewModel.lessonCellViewModels[indexPath.row].lesson
-        
-        let lessonDetailViewModel = LessonDetailViewModel(lesson: lesson)
+        let lessonDetailViewModel = mainViewModel.detailViewModels[indexPath.row]
         
         //Push detail view controller
         let lessonDetailController = LessonDetailController()
