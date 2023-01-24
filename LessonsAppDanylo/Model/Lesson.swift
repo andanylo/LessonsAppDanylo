@@ -9,7 +9,7 @@ import Foundation
 
 
 ///Lesson stucture with name, description, thumbnail, and video_url
-struct Lesson: Codable{
+struct Lesson: Decodable{
     var name: String
     var descritption: String
     var thumbnail: String

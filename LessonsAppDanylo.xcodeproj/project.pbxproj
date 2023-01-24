@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1DA05DDB297F533500857479 /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA05DDA297F533500857479 /* Lesson.swift */; };
+		1DA05DE0297F55DE00857479 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA05DDF297F55DE00857479 /* MainViewModel.swift */; };
+		1DA05DE2297F5BD500857479 /* LessonsResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA05DE1297F5BD500857479 /* LessonsResult.swift */; };
 		1DC12D4A297F50DA00685113 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC12D49297F50DA00685113 /* AppDelegate.swift */; };
 		1DC12D4C297F50DA00685113 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC12D4B297F50DA00685113 /* SceneDelegate.swift */; };
 		1DC12D4E297F50DA00685113 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC12D4D297F50DA00685113 /* ViewController.swift */; };
@@ -37,6 +39,8 @@
 
 /* Begin PBXFileReference section */
 		1DA05DDA297F533500857479 /* Lesson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
+		1DA05DDF297F55DE00857479 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		1DA05DE1297F5BD500857479 /* LessonsResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonsResult.swift; sourceTree = "<group>"; };
 		1DC12D46297F50DA00685113 /* LessonsAppDanylo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LessonsAppDanylo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DC12D49297F50DA00685113 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DC12D4B297F50DA00685113 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +80,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1DA05DDE297F55CF00857479 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1DA05DDF297F55DE00857479 /* MainViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		1DC12D3D297F50DA00685113 = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +111,7 @@
 		1DC12D48297F50DA00685113 /* LessonsAppDanylo */ = {
 			isa = PBXGroup;
 			children = (
+				1DA05DDE297F55CF00857479 /* ViewModel */,
 				1DC12D79297F51CF00685113 /* Model */,
 				1DC12D49297F50DA00685113 /* AppDelegate.swift */,
 				1DC12D4B297F50DA00685113 /* SceneDelegate.swift */,
@@ -131,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				1DA05DDA297F533500857479 /* Lesson.swift */,
+				1DA05DE1297F5BD500857479 /* LessonsResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -265,7 +279,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DA05DE0297F55DE00857479 /* MainViewModel.swift in Sources */,
 				1DC12D4E297F50DA00685113 /* ViewController.swift in Sources */,
+				1DA05DE2297F5BD500857479 /* LessonsResult.swift in Sources */,
 				1DC12D4A297F50DA00685113 /* AppDelegate.swift in Sources */,
 				1DC12D4C297F50DA00685113 /* SceneDelegate.swift in Sources */,
 				1DA05DDB297F533500857479 /* Lesson.swift in Sources */,
