@@ -18,9 +18,32 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let viewController = ViewController()
-        window?.rootViewController = viewController
+        
+        let navigationController = UINavigationController(rootViewController: MainViewController())
+        navigationController.navigationBar.prefersLargeTitles = true
+        
+        let (standardAppearance, scrollEdgeAppearance) = customizeNavigationBar()
+        navigationController.navigationBar.standardAppearance = standardAppearance
+        navigationController.navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+    }
+    
+    //Customizes navigation bar by setting background color, text color, and separator color
+    func customizeNavigationBar() -> (UINavigationBarAppearance, UINavigationBarAppearance){
+        let standardAppearance = UINavigationBarAppearance()
+        let scrollEdgeAppearance = UINavigationBarAppearance()
+        scrollEdgeAppearance.configureWithTransparentBackground()
+        standardAppearance.configureWithOpaqueBackground()
+        
+        standardAppearance.backgroundColor = UIColor(red: 27 / 255, green: 26 / 255, blue: 26 / 255, alpha: 1)
+        standardAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        scrollEdgeAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        scrollEdgeAppearance.shadowColor = UIColor.black
+        standardAppearance.shadowColor = UIColor.black
+        
+        return (standardAppearance, scrollEdgeAppearance)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
