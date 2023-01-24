@@ -28,8 +28,17 @@ final class LessonsAppDanyloTests: XCTestCase {
     //Test creating
     func testLessonCellViewModels() async throws{
         let mainViewModel = MainViewModel()
-        let lessonsResult = try await mainViewModel.fetchLessonsFromRemote()
+        let _ = try await mainViewModel.fetchLessonsFromRemote()
         XCTAssert(mainViewModel.lessons.count == mainViewModel.lessonCellViewModels.count)
+    }
+    
+    //Test loading thumbnail
+    func testLoadingThumbnail() async throws{
+        let exampleLesson = Lesson(id: 0, name: "Test", description: "Test", thumbnail: "https://embed-ssl.wistia.com/deliveries/b57817b5b05c3e3129b7071eee83ecb7.jpg?image_crop_resized=1000x560", video_url: "Test")
+        let lessonCellViewModel = LessonCellViewModel(lesson: exampleLesson)
+        let thumbnailImage = try await lessonCellViewModel.asyncLoadThumnnailImage(from: exampleLesson.thumbnail)
+        
+        XCTAssert(thumbnailImage.size != CGSize.zero)
     }
 
     func testPerformanceExample() throws {

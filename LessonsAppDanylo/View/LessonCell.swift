@@ -41,8 +41,25 @@ class LessonCell: UITableViewCell{
         
         imageView.backgroundColor = .white
         imageView.layer.cornerRadius = 5
+        
+        imageView.clipsToBounds = true
         return imageView
     }()
+    
+    func loadAndSetThumbnailImage(lessonCellViewModel: LessonCellViewModel) async{
+        
+        guard let thumbnailImage = try? await lessonCellViewModel.asyncLoadThumnnailImage(from: lessonCellViewModel.lesson.thumbnail) else{
+            return
+        }
+        //Check if cell wasn't reused
+        if self.lessonCellViewModel === lessonCellViewModel{
+            //Set image
+            DispatchQueue.main.async {
+                self.thumbnailImageView.image = thumbnailImage
+            }
+        }
+    }
+    
     
     func buildView(lessonCellViewModel: LessonCellViewModel){
         self.lessonCellViewModel = lessonCellViewModel
@@ -55,6 +72,10 @@ class LessonCell: UITableViewCell{
             thumbnailImageView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
         }
         
+        //Load and set thumbnail image
+        Task{ [weak self] in
+            await self?.loadAndSetThumbnailImage(lessonCellViewModel: lessonCellViewModel)
+        }
         //Add title label if not added to the cell
         if titleLabel.superview == nil{
             self.contentView.addSubview(titleLabel)
