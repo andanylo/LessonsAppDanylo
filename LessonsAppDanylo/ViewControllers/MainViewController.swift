@@ -18,7 +18,8 @@ class MainViewController: UIViewController{
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(LessonCell.self, forCellReuseIdentifier: "LessonCell")
-        tableView.bounces = false
+        tableView.backgroundColor = .clear
+        
         return tableView
     }()
     
@@ -56,17 +57,23 @@ class MainViewController: UIViewController{
 //Table view data source and delegate
 extension MainViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return mainViewModel.lessons.count
+        return mainViewModel.lessonCellViewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let lessonCell = tableView.dequeueReusableCell(withIdentifier: "LessonCell") as? LessonCell else{
             return UITableViewCell()
         }
-        
+        let lessonCellModel = mainViewModel.lessonCellViewModels[indexPath.row]
+        lessonCell.buildView(lessonCellViewModel: lessonCellModel)
         
         return lessonCell
     }
     
+    
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
     
 }

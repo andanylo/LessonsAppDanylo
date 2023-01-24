@@ -6,3 +6,11 @@
 //
 
 import Foundation
+class LessonCellViewModel{
+    var lesson: Lesson
+    
+    init(lesson: Lesson) {
+        self.lesson = lesson
+    }
+    
+}
