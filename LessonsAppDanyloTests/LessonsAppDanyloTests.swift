@@ -25,6 +25,13 @@ final class LessonsAppDanyloTests: XCTestCase {
         // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
     }
+    
+    //Test fetching and decoding JSON data from URL
+    func testFetching() async throws{
+        let mainViewModel = MainViewModel()
+        let result = try await mainViewModel.fetchLessonsFromRemote()
+        XCTAssert(!result.isEmpty)
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

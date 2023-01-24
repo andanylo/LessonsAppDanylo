@@ -10,8 +10,9 @@ import Foundation
 
 ///Lesson stucture with name, description, thumbnail, and video_url
 struct Lesson: Decodable{
+    var id: Int
     var name: String
-    var descritption: String
+    var description: String
     var thumbnail: String
-    var viedo_url: String
+    var video_url: String
 }
