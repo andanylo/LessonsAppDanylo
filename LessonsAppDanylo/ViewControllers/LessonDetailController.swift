@@ -39,7 +39,7 @@ class LessonDetailController: UIViewController{
     lazy var descriptionLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        label.font = UIFont.systemFont(ofSize: 17, weight: .light)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.textColor = .white
@@ -47,7 +47,7 @@ class LessonDetailController: UIViewController{
         return label
     }()
     
-    ///- Returns: A button which returns next lesson detail screen
+    ///- Returns: A button which presents next lesson detail screen
     ///
     lazy var nextLessonBtn: UIButton = {
         var config = UIButton.Configuration.plain()
@@ -63,6 +63,20 @@ class LessonDetailController: UIViewController{
         })
         button.isHidden = lessonDetailViewModel.returnNextDetailViewModel() == nil
         button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    
+    ///- Returns: A custom download button for navigation bar item
+    lazy var downloadBtn: UIButton = {
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "icloud.and.arrow.down")
+        config.imagePlacement = .leading
+        config.imagePadding = 5
+        config.title = "Download"
+        config.buttonSize = .small
+        
+        let button = UIButton(configuration: config)
         return button
     }()
     
@@ -114,6 +128,10 @@ class LessonDetailController: UIViewController{
         nextLessonBtn.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 15).isActive = true
         nextLessonBtn.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15).isActive = true
         
+        
+        //Download navigation bar button
+        let downloadNavigationBarButton = UIBarButtonItem(customView: downloadBtn)
+        self.navigationItem.rightBarButtonItem = downloadNavigationBarButton
     }
     
     //Presents detailed view controller next to this one
@@ -140,6 +158,9 @@ class LessonDetailController: UIViewController{
         playerController = AVPlayerViewController()
         playerController?.player = player
         playerController?.view.frame.size = videoView.bounds.size
+        playerController?.showsPlaybackControls = true
+        playerController?.allowsPictureInPicturePlayback = true
+        
         self.addChild(playerController!)
         self.videoView.addSubview(playerController!.view)
         
