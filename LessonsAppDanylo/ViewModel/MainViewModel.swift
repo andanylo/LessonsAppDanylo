@@ -38,6 +38,7 @@ class MainViewModel{
         }
         
         self.lessons = lessonsResult.lessons
+        print(lessons)
         
         return lessonsResult.lessons
     }

@@ -52,6 +52,9 @@ class MainViewController: UIViewController{
         }
         
     }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.largeTitleDisplayMode = .always
+    }
 }
 
 //Table view data source and delegate
@@ -76,4 +79,17 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate{
         return 80
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let lesson = mainViewModel.lessonCellViewModels[indexPath.row].lesson
+        
+        let lessonDetailViewModel = LessonDetailViewModel(lesson: lesson)
+        
+        //Push detail view controller
+        let lessonDetailController = LessonDetailController()
+        lessonDetailController.lessonDetailViewModel = lessonDetailViewModel
+        
+        self.navigationController?.pushViewController(lessonDetailController, animated: true)
+     
+    }
 }
