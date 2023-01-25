@@ -77,7 +77,7 @@ class LessonDetailController: UIViewController{
         config.buttonSize = .small
         
         let button = UIButton(configuration: config, primaryAction: UIAction{ [weak self] _ in
-            self?.downloadingView.isHidden = false
+            self?.lessonDetailViewModel.startDownloadingVideo()
         })
         return button
     }()
@@ -145,9 +145,30 @@ class LessonDetailController: UIViewController{
         nextLessonBtn.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15).isActive = true
         
         
+        
+        
+        
         //Download navigation bar button
         let downloadNavigationBarButton = UIBarButtonItem(customView: downloadBtn)
+        downloadNavigationBarButton.isHidden = lessonDetailViewModel.isDownloading || lessonDetailViewModel.isDownloaded
         self.navigationItem.rightBarButtonItem = downloadNavigationBarButton
+        
+        
+        //Did change downloading status
+        lessonDetailViewModel.didChangeDownloadingStatus = { [weak self] isDownloading in
+            DispatchQueue.main.async {
+                self?.downloadingView.isHidden = !isDownloading
+                
+                if isDownloading{
+                    self?.downloadingView.activityIndicator.startAnimating()
+                }
+                else{
+                    self?.downloadingView.activityIndicator.stopAnimating()
+                }
+                
+                downloadNavigationBarButton.isHidden = self?.lessonDetailViewModel.isDownloading == true || self?.lessonDetailViewModel.isDownloaded == true
+            }
+        }
     }
     
     //Presents detailed view controller next to this one
@@ -166,7 +187,7 @@ class LessonDetailController: UIViewController{
   
     //Build a player and add it to the player view
     func buildPlayer(){
-        guard let url = URL(string: lessonDetailViewModel.lesson.video_url) else {
+        guard let url = lessonDetailViewModel.url else {
             return
         }
         player = AVPlayer(url: url)
@@ -189,7 +210,10 @@ class LessonDetailController: UIViewController{
     }
     
     
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        lessonDetailViewModel.didChangeDownloadingStatus = nil
+        lessonDetailViewModel.didChangeProgress = nil
+    }
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.largeTitleDisplayMode = .never
     }

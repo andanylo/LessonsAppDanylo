@@ -33,7 +33,9 @@ class DownloadingView: UIView{
         config.baseBackgroundColor = .darkGray
         config.baseForegroundColor = .white
         
-        let button = UIButton(configuration: config)
+        let button = UIButton(configuration: config, primaryAction: UIAction{  [weak self] _ in
+            self?.didClickOnCancelButton()
+        })
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -78,6 +80,21 @@ class DownloadingView: UIView{
         cancelBtn.centerXAnchor.constraint(equalTo: progressBar.centerXAnchor).isActive = true
         cancelBtn.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 15).isActive = true
         
+        self.isHidden = !lessonDetailViewModel.isDownloading
+        progressBar.progress = lessonDetailViewModel.progress
+        
+        lessonDetailViewModel.didChangeProgress = { [weak self] progress in
+            DispatchQueue.main.async {
+                self?.progressBar.progress = progress
+            }
+        }
+        
+    }
+    
+    
+    ///Cancel downloading
+    func didClickOnCancelButton(){
+        lessonDetailViewModel.stopDownloadingVideo()
     }
     
     required init?(coder: NSCoder) {

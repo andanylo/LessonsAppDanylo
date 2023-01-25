@@ -8,7 +8,7 @@
 import Foundation
 
 ///ViewModel that prepares main view for a display
-class MainViewModel{
+class MainViewModel: NSObject{
     
     var lessons: [Lesson] = []{
         didSet{
@@ -22,6 +22,23 @@ class MainViewModel{
     
     ///Detail view view models
     var detailViewModels: [LessonDetailViewModel] = []
+    
+    
+    ///Get downloading detail view view models videos
+    var downloadingVideosDetailViewModels: [LessonDetailViewModel] {
+        get{
+            return detailViewModels.filter({$0.isDownloading})
+        }
+    }
+    
+    ///- Returns: A download session
+    lazy var downloadSession: URLSession = {
+        let config = URLSessionConfiguration.default
+        let operationQueue = OperationQueue()
+        let session = URLSession(configuration: config, delegate: self, delegateQueue: operationQueue)
+        return session
+    }()
+  
     
     ///Fetch lessons from the url
     ///- Returns: An array of lessons
@@ -68,5 +85,52 @@ class MainViewModel{
         case invalidURL
         case errorDecoding
     }
+    
+    ///- Returns: A lesson detail view model based on download task
+    func findDownloadingLessonDetailViewModel(downloadTask: URLSessionDownloadTask) -> LessonDetailViewModel?{
+        return downloadingVideosDetailViewModels.first(where: {$0.downloadTask === downloadTask})
+    }
+    
+}
+
+
+///Download delegate
+extension MainViewModel: URLSessionDownloadDelegate{
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        guard let currentDetailViewModel: LessonDetailViewModel = findDownloadingLessonDetailViewModel(downloadTask: downloadTask) else{
+            return
+        }
+        
+        //Move from location to documents
+        if let data = try? Data(contentsOf: location), let localVideoURL = currentDetailViewModel.localVideoURL{
+            try? data.write(to: localVideoURL)
+            
+            ///Set status to downloaded
+            currentDetailViewModel.isDownloading = false
+            currentDetailViewModel.downloadTask = nil
+            currentDetailViewModel.progress = 1
+        }
+        
+        
+        
+        
+    }
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        guard let currentDetailViewModel: LessonDetailViewModel = findDownloadingLessonDetailViewModel(downloadTask: downloadTask) else{
+            return
+        }
+        
+        currentDetailViewModel.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
+    }
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        guard let task = task as? URLSessionDownloadTask, let currentDetailViewModel: LessonDetailViewModel = findDownloadingLessonDetailViewModel(downloadTask: task) else{
+            return
+        }
+        
+        currentDetailViewModel.isDownloading = false
+        currentDetailViewModel.progress = 0
+        currentDetailViewModel.downloadTask = nil
+    }
+   
     
 }
