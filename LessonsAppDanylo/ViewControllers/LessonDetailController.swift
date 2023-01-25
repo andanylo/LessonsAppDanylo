@@ -154,7 +154,7 @@ class LessonDetailController: UIViewController{
         self.navigationItem.rightBarButtonItem = downloadNavigationBarButton
         
         
-        //Did change downloading status
+        //Did change downloading status, show / hide downloading view and downloading button
         lessonDetailViewModel.didChangeDownloadingStatus = { [weak self] isDownloading in
             DispatchQueue.main.async {
                 self?.downloadingView.isHidden = !isDownloading

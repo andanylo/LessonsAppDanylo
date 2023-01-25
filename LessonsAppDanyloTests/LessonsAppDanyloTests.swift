@@ -81,5 +81,26 @@ final class LessonsAppDanyloTests: XCTestCase {
         XCTAssert(thumbnailImage.size != CGSize.zero)
     }
     
+    //Test url session initialization
+    func checkURLSessionInitialization(){
+        let exampleLesson = Lesson(id: 1, name: "Test", description: "Test", thumbnail: "", video_url: "https://embed-ssl.wistia.com/deliveries/f2cd208ce7fddf0c0ea886a8f1d0eabf26271816/2rya8a2tcw.mp4")
+        let mainViewModel = MainViewModel()
+        let lessonViewModel = LessonDetailViewModel(lesson: exampleLesson)
+        lessonViewModel.mainViewModel = mainViewModel
+        XCTAssertNotNil(lessonViewModel.downloadTask)
+    }
+    
+    //Test downloading video status
+    func testDownloadingVideoStatus(){
+        let exampleLesson = Lesson(id: 1, name: "Test", description: "Test", thumbnail: "", video_url: "https://embed-ssl.wistia.com/deliveries/f2cd208ce7fddf0c0ea886a8f1d0eabf26271816/2rya8a2tcw.mp4")
+        let mainViewModel = MainViewModel()
+        let lessonViewModel = LessonDetailViewModel(lesson: exampleLesson)
+        lessonViewModel.mainViewModel = mainViewModel
+        lessonViewModel.startDownloadingVideo()
+        
+        XCTAssert(lessonViewModel.isDownloading)
+        lessonViewModel.stopDownloadingVideo()
+        XCTAssert(lessonViewModel.isDownloading == false)
+    }
     
 }

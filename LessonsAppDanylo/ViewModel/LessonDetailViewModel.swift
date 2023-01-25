@@ -13,14 +13,19 @@ class LessonDetailViewModel{
     
     weak var mainViewModel: MainViewModel?
     
+    
+    ///Is downloading status
     var isDownloading = false{
         didSet{
+            //Did change downloading status handler
             didChangeDownloadingStatus?(isDownloading)
         }
     }
     
+    ///Progress for downloading a video
     var progress: Float = 0.0{
         didSet{
+            //Did change progress value handler
             didChangeProgress?(progress)
         }
     }
@@ -87,6 +92,7 @@ class LessonDetailViewModel{
         return nil
     }
     
+    ///- Returns: Url session download task
     lazy var downloadTask: URLSessionDownloadTask? = {
         if let downloadURL = URL(string: lesson.video_url) {
             let urlRequest = URLRequest(url: downloadURL)

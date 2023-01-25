@@ -105,7 +105,7 @@ extension MainViewModel: URLSessionDownloadDelegate{
         if let data = try? Data(contentsOf: location), let localVideoURL = currentDetailViewModel.localVideoURL{
             try? data.write(to: localVideoURL)
             
-            ///Set status to downloaded
+            //Set status to downloaded
             currentDetailViewModel.isDownloading = false
             currentDetailViewModel.downloadTask = nil
             currentDetailViewModel.progress = 1
@@ -120,6 +120,7 @@ extension MainViewModel: URLSessionDownloadDelegate{
             return
         }
         
+        //Set progress
         currentDetailViewModel.progress = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
     }
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
