@@ -76,8 +76,16 @@ class LessonDetailController: UIViewController{
         config.title = "Download"
         config.buttonSize = .small
         
-        let button = UIButton(configuration: config)
+        let button = UIButton(configuration: config, primaryAction: UIAction{ [weak self] _ in
+            self?.downloadingView.isHidden = false
+        })
         return button
+    }()
+    
+    ///- Returns: A download video view that displays downloading info
+    lazy var downloadingView: DownloadingView = {
+        let view = DownloadingView(lessonDetailViewModel: self.lessonDetailViewModel)
+        return view
     }()
     
     var player: AVPlayer?
@@ -99,6 +107,14 @@ class LessonDetailController: UIViewController{
         
         
         buildPlayer()
+        
+        //Downloading view
+        self.view.addSubview(downloadingView)
+        
+        downloadingView.topAnchor.constraint(equalTo: videoView.topAnchor).isActive = true
+        downloadingView.bottomAnchor.constraint(equalTo: videoView.bottomAnchor).isActive = true
+        downloadingView.leadingAnchor.constraint(equalTo: videoView.leadingAnchor).isActive = true
+        downloadingView.trailingAnchor.constraint(equalTo: videoView.trailingAnchor).isActive = true
         
         //Title label
         self.view.addSubview(titleLabel)
@@ -147,8 +163,7 @@ class LessonDetailController: UIViewController{
         self.navigationController?.pushViewController(detailController, animated: true)
     }
     
-    
-    
+  
     //Build a player and add it to the player view
     func buildPlayer(){
         guard let url = URL(string: lessonDetailViewModel.lesson.video_url) else {
