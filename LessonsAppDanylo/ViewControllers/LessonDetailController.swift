@@ -153,7 +153,6 @@ class LessonDetailController: UIViewController{
         downloadNavigationBarButton.isHidden = lessonDetailViewModel.isDownloading || lessonDetailViewModel.isDownloaded
         self.navigationItem.rightBarButtonItem = downloadNavigationBarButton
         
-        
         //Did change downloading status, show / hide downloading view and downloading button
         lessonDetailViewModel.didChangeDownloadingStatus = { [weak self] isDownloading in
             DispatchQueue.main.async {
@@ -176,14 +175,19 @@ class LessonDetailController: UIViewController{
         guard let nextLessonViewModel = lessonDetailViewModel.returnNextDetailViewModel() else{
             return
         }
-        //Pop to root navigation controller so that the videos wouldn't be stored in the memory
-        self.navigationController?.popToRootViewController(animated: true)
-        
         let detailController = LessonDetailController()
         detailController.lessonDetailViewModel = nextLessonViewModel
+        
+        self.player?.pause()
         self.navigationController?.pushViewController(detailController, animated: true)
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        if UIDevice.current.orientation.isLandscape{
+            playerController?.enterFullScreen(animated: true)
+        }
+    }
   
     //Build a player and add it to the player view
     func buildPlayer(){
@@ -192,6 +196,7 @@ class LessonDetailController: UIViewController{
         }
         player = AVPlayer(url: url)
         playerController = AVPlayerViewController()
+        
         playerController?.player = player
         playerController?.view.frame.size = videoView.bounds.size
         playerController?.showsPlaybackControls = true
@@ -207,6 +212,10 @@ class LessonDetailController: UIViewController{
         playerController?.view.trailingAnchor.constraint(equalTo: videoView.trailingAnchor).isActive = true
         
         playerController?.didMove(toParent: self)
+        
+        if UIDevice.current.orientation.isLandscape{
+            playerController?.enterFullScreen(animated: true)
+        }
     }
     
     
@@ -214,7 +223,19 @@ class LessonDetailController: UIViewController{
         lessonDetailViewModel.didChangeDownloadingStatus = nil
         lessonDetailViewModel.didChangeProgress = nil
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.largeTitleDisplayMode = .never
+        
+    }
+}
+
+
+extension AVPlayerViewController {
+    func enterFullScreen(animated: Bool) {
+        perform(NSSelectorFromString("enterFullScreenAnimated:completionHandler:"), with: animated, with: nil)
+    }
+    func exitFullScreen(animated: Bool) {
+        perform(NSSelectorFromString("exitFullScreenAnimated:completionHandler:"), with: animated, with: nil)
     }
 }

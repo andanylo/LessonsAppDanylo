@@ -8,7 +8,7 @@
 import Foundation
 
 
-//Result struct that is created from fetching JSON from URL
+///Result struct that is created from fetching JSON from URL
 struct LessonsResult: Decodable{
     var lessons: [Lesson]
 }

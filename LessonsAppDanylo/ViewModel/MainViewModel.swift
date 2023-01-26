@@ -57,7 +57,6 @@ class MainViewModel: NSObject{
         }
         
         self.lessons = lessonsResult.lessons
-        
         return lessonsResult.lessons
     }
     

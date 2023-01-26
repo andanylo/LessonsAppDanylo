@@ -2,7 +2,7 @@
 //  LessonsAppDanyloTests.swift
 //  LessonsAppDanyloTests
 //
-//  Created by Danil Andriuschenko on 23.01.2023.
+//  Created by Danylo Andriushchenko on 23.01.2023.
 //
 
 import XCTest

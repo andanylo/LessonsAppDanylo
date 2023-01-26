@@ -54,6 +54,11 @@ class MainViewController: UIViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.largeTitleDisplayMode = .always
+
+    }
+ 
+    override func viewDidAppear(_ animated: Bool) {
+        
     }
 }
 
