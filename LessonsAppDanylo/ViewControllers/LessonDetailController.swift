@@ -220,13 +220,17 @@ class LessonDetailController: UIViewController{
     
     
     override func viewWillDisappear(_ animated: Bool) {
-        lessonDetailViewModel.didChangeDownloadingStatus = nil
-        lessonDetailViewModel.didChangeProgress = nil
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationItem.largeTitleDisplayMode = .never
         
+    }
+    
+    deinit{
+        lessonDetailViewModel.didChangeDownloadingStatus = nil
+        lessonDetailViewModel.didChangeProgress = nil
     }
 }
 
