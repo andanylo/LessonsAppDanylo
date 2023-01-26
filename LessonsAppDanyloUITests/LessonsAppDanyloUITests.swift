@@ -24,6 +24,7 @@ final class LessonsAppDanyloUITests: XCTestCase {
 
     //Test table view cell content
     func testTableViewCell(){
+        sleep(1)
         
         XCTAssert(app.tables.cells.firstMatch.staticTexts["The Key To Success In iPhone Photography"].exists)
         XCTAssert(app.tables.cells.firstMatch.images.firstMatch.exists)
@@ -31,6 +32,7 @@ final class LessonsAppDanyloUITests: XCTestCase {
     
     //Test navigation
     func testNavigation(){
+        sleep(1)
 
         app.tables.cells.firstMatch.tap()
         
@@ -43,6 +45,7 @@ final class LessonsAppDanyloUITests: XCTestCase {
     
     //Test detail view for first cell
     func testDetailView(){
+        sleep(1)
     
         app.tables.cells.firstMatch.tap()
         
@@ -56,6 +59,8 @@ final class LessonsAppDanyloUITests: XCTestCase {
     
     //Test next button presentation
     func testNextLessonDetailScreen(){
+        sleep(1)
+        
         app.tables.cells.firstMatch.tap()
         
         app.buttons["Next lesson"].tap()
@@ -67,6 +72,8 @@ final class LessonsAppDanyloUITests: XCTestCase {
     
     //Test downloading view appearance
     func testDownloadingView(){
+        sleep(1)
+        
         app.tables.cells.firstMatch.tap()
         
         app.buttons["Download"].tap()
