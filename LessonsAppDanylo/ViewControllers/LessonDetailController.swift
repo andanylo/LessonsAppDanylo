@@ -162,6 +162,13 @@ class LessonDetailController: UIViewController{
                     self?.downloadingView.activityIndicator.startAnimating()
                 }
                 else{
+                    
+                    //Set new player from local url
+                    if let player = self?.getPlayer(), self?.lessonDetailViewModel.isDownloaded == true{
+                        self?.playerController?.player = nil
+                        self?.player = player
+                        self?.playerController?.player = self?.player
+                    }
                     self?.downloadingView.activityIndicator.stopAnimating()
                 }
                 
@@ -189,12 +196,19 @@ class LessonDetailController: UIViewController{
         }
     }
   
+    
+    ///- Returns: AVPlayer from either local or remote url
+    func getPlayer() -> AVPlayer?{
+        guard let url = lessonDetailViewModel.url else {
+            return nil
+        }
+        let player = AVPlayer(url: url)
+        return player
+    }
+    
     //Build a player and add it to the player view
     func buildPlayer(){
-        guard let url = lessonDetailViewModel.url else {
-            return
-        }
-        player = AVPlayer(url: url)
+        player = getPlayer()
         playerController = AVPlayerViewController()
         
         playerController?.player = player

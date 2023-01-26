@@ -92,21 +92,25 @@ class LessonDetailViewModel{
         return nil
     }
     
+    var downloadTask: URLSessionDownloadTask?
+    
     ///- Returns: Url session download task
-    lazy var downloadTask: URLSessionDownloadTask? = {
+    func createDownloadTask() -> URLSessionDownloadTask?{
         if let downloadURL = URL(string: lesson.video_url) {
             let urlRequest = URLRequest(url: downloadURL)
             
             return mainViewModel?.downloadSession.downloadTask(with: urlRequest)
         }
         return nil
-    }()
+    }
     
     
     ///Starts downloading video
     func startDownloadingVideo(){
         isDownloading = true
         progress = 0
+ 
+        downloadTask = createDownloadTask()
         
         downloadTask?.resume()
         
