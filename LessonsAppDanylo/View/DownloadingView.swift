@@ -2,7 +2,7 @@
 //  DownloadingView.swift
 //  LessonsAppDanylo
 //
-//  Created by Danil Andriuschenko on 24.01.2023.
+//  Created by Danylo Andriushchenko on 24.01.2023.
 //
 
 import Foundation
