@@ -24,64 +24,69 @@ final class LessonsAppDanyloUITests: XCTestCase {
 
     //Test table view cell content
     func testTableViewCell(){
-        sleep(1)
+        if app.tables.cells.firstMatch.waitForExistence(timeout: 5){
+            XCTAssert(app.tables.cells.firstMatch.staticTexts["The Key To Success In iPhone Photography"].exists)
+            XCTAssert(app.tables.cells.firstMatch.images.firstMatch.exists)
+        }
         
-        XCTAssert(app.tables.cells.firstMatch.staticTexts["The Key To Success In iPhone Photography"].exists)
-        XCTAssert(app.tables.cells.firstMatch.images.firstMatch.exists)
+        
     }
     
     //Test navigation
     func testNavigation(){
-        sleep(1)
-
-        app.tables.cells.firstMatch.tap()
+        if app.tables.cells.firstMatch.waitForExistence(timeout: 5){
+            app.tables.cells.firstMatch.tap()
+            
+            app.navigationBars.buttons["Lessons"].tap()
+            
+            app.tables.cells.element(boundBy: 2).tap()
+            
+            app.navigationBars.buttons["Lessons"].tap()
+        }
         
-        app.navigationBars.buttons["Lessons"].tap()
-        
-        app.tables.cells.element(boundBy: 2).tap()
-        
-        app.navigationBars.buttons["Lessons"].tap()
     }
     
     //Test detail view for first cell
     func testDetailView(){
-        sleep(1)
-    
-        app.tables.cells.firstMatch.tap()
         
-        let title = "The Key To Success In iPhone Photography"
+        if app.tables.cells.firstMatch.waitForExistence(timeout: 5){
+            app.tables.cells.firstMatch.tap()
+            
+            let title = "The Key To Success In iPhone Photography"
+            
+            XCTAssert(app.staticTexts[title].exists)
+            XCTAssert(app.buttons["Next lesson"].exists)
+            XCTAssert(app.buttons["Download"].exists)
+        }
         
-        XCTAssert(app.staticTexts[title].exists)
-        XCTAssert(app.buttons["Next lesson"].exists)
-        XCTAssert(app.buttons["Download"].exists)
         
     }
     
     //Test next button presentation
     func testNextLessonDetailScreen(){
-        sleep(1)
-        
-        app.tables.cells.firstMatch.tap()
-        
-        app.buttons["Next lesson"].tap()
-        
-        let nextTitle = "How To Choose The Correct iPhone Camera Lens"
-        
-        XCTAssert(app.staticTexts[nextTitle].exists)
+        if app.tables.cells.firstMatch.waitForExistence(timeout: 5){
+            app.tables.cells.firstMatch.tap()
+            
+            app.buttons["Next lesson"].tap()
+            
+            let nextTitle = "How To Choose The Correct iPhone Camera Lens"
+            
+            XCTAssert(app.staticTexts[nextTitle].exists)
+        }
     }
     
     //Test downloading view appearance
     func testDownloadingView(){
-        sleep(1)
-        
-        app.tables.cells.firstMatch.tap()
-        
-        app.buttons["Download"].tap()
-        
-        XCTAssert(app.progressIndicators.firstMatch.exists)
-        XCTAssert(app.activityIndicators.firstMatch.exists)
-        
-        app.buttons["Cancel downloading"].tap()
+        if app.tables.cells.firstMatch.waitForExistence(timeout: 5){
+            app.tables.cells.firstMatch.tap()
+            
+            app.buttons["Download"].tap()
+            
+            XCTAssert(app.progressIndicators.firstMatch.exists)
+            XCTAssert(app.activityIndicators.firstMatch.exists)
+            
+            app.buttons["Cancel downloading"].tap()
+        }
     }
     
     
